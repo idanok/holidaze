@@ -18,6 +18,21 @@ export interface VenueMedia {
     continent: string;
   }
   
+  export interface Booking {
+    id: string;
+    dateFrom: string;
+    dateTo: string;
+    guests: number;
+    created: string;
+    updated: string;
+  }
+  
+  export interface VenueOwner {
+    name: string;
+    email: string;
+    avatar?: { url: string; alt: string };
+  }
+  
   export interface Venue {
     id: string;
     name: string;
@@ -30,4 +45,6 @@ export interface VenueMedia {
     updated: string;
     meta: VenueMeta;
     location: VenueLocation;
+    bookings?: Booking[];
+    owner?: VenueOwner;
   }

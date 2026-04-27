@@ -7,6 +7,13 @@ export async function getVenues() {
   return data.data;
 }
 
+export async function getVenueById(id: string) {
+  const response = await fetch(`${BASE_URL}/holidaze/venues/${id}?_bookings=true&_owner=true`);
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.errors?.[0]?.message || 'Failed to fetch venue');
+  return data.data;
+}
+
 export async function searchVenues(query: string) {
   const response = await fetch(`${BASE_URL}/holidaze/venues/search?q=${query}`);
   const data = await response.json();
