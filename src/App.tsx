@@ -5,8 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Venues from './pages/Venues';
 import VenueDetail from './pages/VenueDetail';
-
-const Profile = () => <div className="p-8 text-2xl">Profile</div>;
+import Profile from './pages/Profile';
 
 export default function App() {
   return (
