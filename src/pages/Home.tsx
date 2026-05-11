@@ -64,7 +64,7 @@ export default function Home() {
             <label htmlFor="hero-search" className="sr-only">Search destinations and venues</label>
             <input
               id="hero-search"
-              type="text"
+              type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search destinations, venues…"
@@ -73,7 +73,7 @@ export default function Home() {
             <button
               type="submit"
               aria-label="Submit search"
-              className="bg-[#E8614A] px-7 text-white text-sm font-semibold hover:bg-[#d4553f] transition-colors"
+              className="bg-[#C0392B] px-7 text-white text-sm font-semibold hover:bg-[#a93226] transition-colors"
             >
               Search
             </button>
@@ -85,15 +85,15 @@ export default function Home() {
       <div className="bg-white border-b border-[#E8E4DE]">
         <div className="max-w-7xl mx-auto px-6 py-6 grid grid-cols-3 gap-6 text-center">
           <div>
-            <p className="font-serif text-3xl font-bold text-[#1B2B40]">500+</p>
+            <p className="font-serif text-3xl font-bold text-[#1B2B40]" role="heading" aria-level={2}>500+</p>
             <p className="text-xs text-[#4B5563] mt-1">Venues available</p>
           </div>
           <div>
-            <p className="font-serif text-3xl font-bold text-[#1B2B40]">50+</p>
+            <p className="font-serif text-3xl font-bold text-[#1B2B40]" role="heading" aria-level={2}>50+</p>
             <p className="text-xs text-[#4B5563] mt-1">Destinations</p>
           </div>
           <div>
-            <p className="font-serif text-3xl font-bold text-[#1B2B40]">4.8 ★</p>
+            <p className="font-serif text-3xl font-bold text-[#1B2B40]" role="heading" aria-level={2}>4.8 ★</p>
             <p className="text-xs text-[#4B5563] mt-1">Average rating</p>
           </div>
         </div>
@@ -112,8 +112,7 @@ export default function Home() {
           </div>
           <Link
             to="/venues"
-            className="text-sm font-semibold text-[#E8614A] hover:underline"
-            aria-label="View all venues"
+            className="text-sm font-semibold text-[#C0392B] hover:underline"
           >
             View all →
           </Link>
@@ -198,7 +197,7 @@ export default function Home() {
         <div className="flex gap-4 justify-center flex-wrap">
           <Link
             to="/venues"
-            className="bg-[#E8614A] text-white font-semibold px-8 py-4 rounded-xl hover:bg-[#d4553f] transition-colors text-sm"
+            className="bg-[#C0392B] text-white font-semibold px-8 py-4 rounded-xl hover:bg-[#a93226] transition-colors text-sm"
           >
             Browse Venues
           </Link>
