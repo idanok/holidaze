@@ -16,7 +16,6 @@ export default function VenueDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Booking form state
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [guests, setGuests] = useState(1);
@@ -60,19 +59,16 @@ export default function VenueDetail() {
     }
   }
 
-  // Get booked dates for calendar display
   const bookedDates = venue?.bookings?.map((b) => ({
     from: new Date(b.dateFrom),
     to: new Date(b.dateTo),
   })) || [];
 
-  // Calculate total nights and price
   const nights = dateFrom && dateTo
     ? Math.ceil((new Date(dateTo).getTime() - new Date(dateFrom).getTime()) / (1000 * 60 * 60 * 24))
     : 0;
   const total = nights > 0 && venue ? nights * venue.price : 0;
 
-  // Loading skeleton
   if (loading) {
     return (
       <div className="min-h-screen bg-[#FAF6F0]">
@@ -91,15 +87,14 @@ export default function VenueDetail() {
     );
   }
 
-  // Error state
   if (error || !venue) {
     return (
       <div className="min-h-screen bg-[#FAF6F0] flex items-center justify-center">
         <div className="text-center">
-          <p className="text-5xl mb-4">😕</p>
+          <p className="text-5xl mb-4" aria-hidden="true">😕</p>
           <h2 className="font-serif text-2xl text-[#1B2B40] mb-2">Venue not found</h2>
-          <p className="text-[#8A8F9A] text-sm mb-6">{error}</p>
-          <Link to="/venues" className="bg-[#E8614A] text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-[#d4553f] transition-colors">
+          <p className="text-[#4B5563] text-sm mb-6">{error}</p>
+          <Link to="/venues" className="bg-[#C0392B] text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-[#a93226] transition-colors">
             Back to Venues
           </Link>
         </div>
@@ -124,7 +119,6 @@ export default function VenueDetail() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
-        {/* Back button */}
         <button
           onClick={() => navigate(-1)}
           className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm text-[#1B2B40] px-4 py-2 rounded-xl text-sm font-semibold hover:bg-white transition-colors flex items-center gap-2 shadow-sm"
@@ -132,11 +126,10 @@ export default function VenueDetail() {
           ← Back
         </button>
 
-        {/* Rating badge */}
         {venue.rating > 0 && (
           <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm text-[#1B2B40] px-3 py-2 rounded-xl text-sm font-bold flex items-center gap-1 shadow-sm">
-            <span className="text-[#F2C784]">★</span>
-            {venue.rating.toFixed(1)}
+            <span className="text-[#92660A]" aria-hidden="true">★</span>
+            <span>{venue.rating.toFixed(1)}</span>
           </div>
         )}
       </div>
@@ -148,9 +141,8 @@ export default function VenueDetail() {
           {/* Left – venue info */}
           <div className="lg:col-span-2">
 
-            {/* Location + title */}
-            <p className="text-sm text-[#8A8F9A] mb-2">
-              📍 {[city, country].filter(Boolean).join(', ') || 'Location not specified'}
+            <p className="text-sm text-[#4B5563] mb-2">
+              <span aria-hidden="true">📍</span> {[city, country].filter(Boolean).join(', ') || 'Location not specified'}
             </p>
             <h1 className="font-serif text-4xl font-light text-[#1B2B40] mb-6 leading-tight">
               {venue.name}
@@ -159,19 +151,27 @@ export default function VenueDetail() {
             {/* Amenities */}
             <div className="flex gap-3 flex-wrap mb-8">
               {venue.meta?.wifi && (
-                <span className="bg-white border border-[#E8E4DE] text-sm text-[#2D3340] px-4 py-2 rounded-full">🌐 WiFi</span>
+                <span className="bg-white border border-[#E8E4DE] text-sm text-[#2D3340] px-4 py-2 rounded-full">
+                  <span aria-hidden="true">🌐</span> WiFi
+                </span>
               )}
               {venue.meta?.parking && (
-                <span className="bg-white border border-[#E8E4DE] text-sm text-[#2D3340] px-4 py-2 rounded-full">🅿️ Parking</span>
+                <span className="bg-white border border-[#E8E4DE] text-sm text-[#2D3340] px-4 py-2 rounded-full">
+                  <span aria-hidden="true">🅿️</span> Parking
+                </span>
               )}
               {venue.meta?.breakfast && (
-                <span className="bg-white border border-[#E8E4DE] text-sm text-[#2D3340] px-4 py-2 rounded-full">🍳 Breakfast</span>
+                <span className="bg-white border border-[#E8E4DE] text-sm text-[#2D3340] px-4 py-2 rounded-full">
+                  <span aria-hidden="true">🍳</span> Breakfast
+                </span>
               )}
               {venue.meta?.pets && (
-                <span className="bg-white border border-[#E8E4DE] text-sm text-[#2D3340] px-4 py-2 rounded-full">🐾 Pets allowed</span>
+                <span className="bg-white border border-[#E8E4DE] text-sm text-[#2D3340] px-4 py-2 rounded-full">
+                  <span aria-hidden="true">🐾</span> Pets allowed
+                </span>
               )}
               <span className="bg-white border border-[#E8E4DE] text-sm text-[#2D3340] px-4 py-2 rounded-full">
-                👥 Max {venue.maxGuests} guests
+                <span aria-hidden="true">👥</span> Max {venue.maxGuests} guests
               </span>
             </div>
 
@@ -200,7 +200,7 @@ export default function VenueDetail() {
                 <div className="bg-white rounded-2xl p-6 border border-[#E8E4DE] flex flex-col gap-2">
                   {bookedDates.map((d, i) => (
                     <div key={i} className="flex items-center gap-3 text-sm">
-                      <span className="w-2 h-2 rounded-full bg-[#E8614A] flex-shrink-0" />
+                      <span className="w-2 h-2 rounded-full bg-[#E8614A] flex-shrink-0" aria-hidden="true" />
                       <span className="text-[#2D3340]">
                         {d.from.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                         {' – '}
@@ -224,13 +224,13 @@ export default function VenueDetail() {
                       className="w-12 h-12 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-[#1B2B40] flex items-center justify-center text-white font-bold text-lg">
+                    <div className="w-12 h-12 rounded-full bg-[#1B2B40] flex items-center justify-center text-white font-bold text-lg" aria-label={venue.owner.name}>
                       {venue.owner.name[0].toUpperCase()}
                     </div>
                   )}
                   <div>
                     <p className="font-semibold text-[#1B2B40]">{venue.owner.name}</p>
-                    <p className="text-sm text-[#8A8F9A]">{venue.owner.email}</p>
+                    <p className="text-sm text-[#4B5563]">{venue.owner.email}</p>
                   </div>
                 </div>
               </div>
@@ -246,39 +246,37 @@ export default function VenueDetail() {
                 <span className="font-serif text-4xl font-bold text-[#1B2B40]">
                   NOK {venue.price.toLocaleString()}
                 </span>
-                <span className="text-sm text-[#8A8F9A] ml-1">/ night</span>
+                <span className="text-sm text-[#4B5563] ml-1">/ night</span>
               </div>
 
               {/* Manager – no booking widget */}
               {isVenueManager ? (
                 <div className="text-center py-4">
-                  <p className="text-sm text-[#8A8F9A] mb-4">You are logged in as a venue manager.</p>
+                  <p className="text-sm text-[#4B5563] mb-4">You are logged in as a venue manager.</p>
                   <Link
                     to="/profile"
-                    className="text-[#E8614A] text-sm font-semibold hover:underline"
+                    className="text-[#C0392B] text-sm font-semibold hover:underline"
                   >
                     Go to Dashboard →
                   </Link>
                 </div>
 
               ) : !isLoggedIn ? (
-                // Not logged in
                 <div className="text-center py-4">
-                  <p className="text-sm text-[#8A8F9A] mb-4">Log in to book this venue</p>
+                  <p className="text-sm text-[#4B5563] mb-4">Log in to book this venue</p>
                   <Link
                     to="/login"
-                    className="w-full block bg-[#E8614A] text-white font-semibold py-3.5 rounded-xl hover:bg-[#d4553f] transition-colors text-sm text-center"
+                    className="w-full block bg-[#C0392B] text-white font-semibold py-3.5 rounded-xl hover:bg-[#a93226] transition-colors text-sm text-center"
                   >
                     Log In to Book
                   </Link>
                 </div>
 
               ) : bookingSuccess ? (
-                // Success state
-                <div className="text-center py-6">
-                  <p className="text-4xl mb-3">🎉</p>
+                <div className="text-center py-6" role="status">
+                  <p className="text-4xl mb-3" aria-hidden="true">🎉</p>
                   <h3 className="font-serif text-xl font-semibold text-[#1B2B40] mb-2">Booking confirmed!</h3>
-                  <p className="text-sm text-[#8A8F9A] mb-6">Your stay has been booked successfully.</p>
+                  <p className="text-sm text-[#4B5563] mb-6">Your stay has been booked successfully.</p>
                   <Link
                     to="/profile"
                     className="block w-full bg-[#1B2B40] text-white font-semibold py-3.5 rounded-xl hover:bg-[#2d4460] transition-colors text-sm text-center"
@@ -287,25 +285,25 @@ export default function VenueDetail() {
                   </Link>
                   <button
                     onClick={() => setBookingSuccess(false)}
-                    className="mt-3 text-sm text-[#8A8F9A] hover:text-[#E8614A] transition-colors"
+                    className="mt-3 text-sm text-[#4B5563] hover:text-[#C0392B] transition-colors"
                   >
                     Book again
                   </button>
                 </div>
 
               ) : (
-                // Booking form
                 <form onSubmit={handleBooking} className="flex flex-col gap-4">
                   {bookingError && (
-                    <div className="bg-red-50 border border-red-200 text-red-600 text-xs px-3 py-2 rounded-lg">
+                    <div className="bg-red-50 border border-red-200 text-red-600 text-xs px-3 py-2 rounded-lg" role="alert">
                       {bookingError}
                     </div>
                   )}
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-[#1B2B40] mb-1 uppercase tracking-wide">Check-in</label>
+                      <label htmlFor="checkin-date" className="block text-xs font-bold text-[#1B2B40] mb-1 uppercase tracking-wide">Check-in</label>
                       <input
+                        id="checkin-date"
                         type="date"
                         value={dateFrom}
                         onChange={(e) => setDateFrom(e.target.value)}
@@ -315,8 +313,9 @@ export default function VenueDetail() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-[#1B2B40] mb-1 uppercase tracking-wide">Check-out</label>
+                      <label htmlFor="checkout-date" className="block text-xs font-bold text-[#1B2B40] mb-1 uppercase tracking-wide">Check-out</label>
                       <input
+                        id="checkout-date"
                         type="date"
                         value={dateTo}
                         onChange={(e) => setDateTo(e.target.value)}
@@ -328,8 +327,9 @@ export default function VenueDetail() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#1B2B40] mb-1 uppercase tracking-wide">Guests</label>
+                    <label htmlFor="guests-count" className="block text-xs font-bold text-[#1B2B40] mb-1 uppercase tracking-wide">Guests</label>
                     <input
+                      id="guests-count"
                       type="number"
                       value={guests}
                       onChange={(e) => setGuests(Number(e.target.value))}
@@ -338,10 +338,9 @@ export default function VenueDetail() {
                       required
                       className="w-full px-3 py-2.5 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors"
                     />
-                    <p className="text-xs text-[#8A8F9A] mt-1">Max {venue.maxGuests} guests</p>
+                    <p className="text-xs text-[#4B5563] mt-1">Max {venue.maxGuests} guests</p>
                   </div>
 
-                  {/* Price summary */}
                   {nights > 0 && (
                     <div className="bg-[#FAF6F0] rounded-xl p-4 text-sm flex flex-col gap-2">
                       <div className="flex justify-between text-[#2D3340]">
@@ -358,12 +357,12 @@ export default function VenueDetail() {
                   <button
                     type="submit"
                     disabled={bookingLoading}
-                    className="w-full bg-[#E8614A] text-white font-semibold py-4 rounded-xl hover:bg-[#d4553f] transition-colors disabled:opacity-60 disabled:cursor-not-allowed text-sm"
+                    className="w-full bg-[#C0392B] text-white font-semibold py-4 rounded-xl hover:bg-[#a93226] transition-colors disabled:opacity-60 disabled:cursor-not-allowed text-sm"
                   >
                     {bookingLoading ? 'Booking…' : 'Reserve'}
                   </button>
 
-                  <p className="text-center text-xs text-[#8A8F9A]">You won't be charged yet</p>
+                  <p className="text-center text-xs text-[#4B5563]">You won't be charged yet</p>
                 </form>
               )}
             </div>
