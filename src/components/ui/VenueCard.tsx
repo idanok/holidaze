@@ -3,11 +3,12 @@ import type { Venue } from '../../types';
 
 interface Props {
   venue: Venue;
+  priority?: boolean;
 }
 
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800';
 
-export default function VenueCard({ venue }: Props) {
+export default function VenueCard({ venue, priority = false }: Props) {
   const image = venue.media?.[0]?.url || FALLBACK_IMAGE;
   const alt = venue.media?.[0]?.alt || venue.name;
   const city = venue.location?.city || 'Unknown location';
@@ -21,6 +22,10 @@ export default function VenueCard({ venue }: Props) {
         <img
           src={image}
           alt={alt}
+          width={400}
+          height={208}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           onError={(e) => { (e.target as HTMLImageElement).src = FALLBACK_IMAGE; }}
         />
