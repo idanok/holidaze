@@ -40,31 +40,26 @@ export default function Home() {
       {/* ── HERO ── */}
       <div className="bg-[#1B2B40] min-h-[560px] flex items-center px-6 lg:px-16 py-20 relative overflow-hidden">
 
-        {/* Background glow effects */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-[#E8614A]/10 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-[#7A9E8E]/10 rounded-full blur-3xl" />
         </div>
 
         <div className="relative z-10 max-w-2xl">
-          {/* Eyebrow */}
           <p className="text-[#F2C784] text-xs font-semibold tracking-widest uppercase mb-5">
             ✦ Find your perfect stay
           </p>
 
-          {/* Headline */}
           <h1 className="font-serif text-6xl lg:text-7xl font-light text-white leading-[1.05] mb-6">
             Your next<br />
             <span className="text-[#E8614A]">escape</span><br />
             awaits
           </h1>
 
-          {/* Subtext */}
           <p className="text-white/70 text-base mb-10 max-w-md leading-relaxed">
             Discover unique venues handpicked for unforgettable experiences — from coastal retreats to mountain hideaways.
           </p>
 
-          {/* Search bar */}
           <form onSubmit={handleSearch} className="flex bg-white rounded-xl overflow-hidden shadow-2xl max-w-lg">
             <label htmlFor="hero-search" className="sr-only">Search destinations and venues</label>
             <input
@@ -73,8 +68,7 @@ export default function Home() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search destinations, venues…"
-              aria-label="Search destinations and venues"
-              className="flex-1 px-5 py-4 text-sm text-[#2D3340] outline-none bg-transparent placeholder:text-[#C4BFB8]"
+              className="flex-1 px-5 py-4 text-sm text-[#2D3340] outline-none bg-transparent placeholder:text-[#9CA3AF]"
             />
             <button
               type="submit"
@@ -92,15 +86,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 py-6 grid grid-cols-3 gap-6 text-center">
           <div>
             <p className="font-serif text-3xl font-bold text-[#1B2B40]">500+</p>
-            <p className="text-xs text-[#6B7280] mt-1">Venues available</p>
+            <p className="text-xs text-[#4B5563] mt-1">Venues available</p>
           </div>
           <div>
             <p className="font-serif text-3xl font-bold text-[#1B2B40]">50+</p>
-            <p className="text-xs text-[#6B7280] mt-1">Destinations</p>
+            <p className="text-xs text-[#4B5563] mt-1">Destinations</p>
           </div>
           <div>
             <p className="font-serif text-3xl font-bold text-[#1B2B40]">4.8 ★</p>
-            <p className="text-xs text-[#6B7280] mt-1">Average rating</p>
+            <p className="text-xs text-[#4B5563] mt-1">Average rating</p>
           </div>
         </div>
       </div>
@@ -109,7 +103,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-xs font-semibold text-[#6B7280] tracking-widest uppercase mb-2">
+            <p className="text-xs font-semibold text-[#4B5563] tracking-widest uppercase mb-2">
               Handpicked for you
             </p>
             <h2 className="font-serif text-4xl font-light text-[#1B2B40]">
@@ -125,7 +119,6 @@ export default function Home() {
           </Link>
         </div>
 
-        {/* Loading skeletons */}
         {loading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {Array.from({ length: 4 }).map((_, i) => (
@@ -141,7 +134,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* Venue cards */}
         {!loading && featured.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featured.map((venue, index) => (
@@ -155,7 +147,7 @@ export default function Home() {
       <div className="bg-white border-t border-[#E8E4DE] py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <p className="text-xs font-semibold text-[#6B7280] tracking-widest uppercase mb-2">
+            <p className="text-xs font-semibold text-[#4B5563] tracking-widest uppercase mb-2">
               Simple and easy
             </p>
             <h2 className="font-serif text-4xl font-light text-[#1B2B40]">
@@ -169,7 +161,7 @@ export default function Home() {
                 🔍
               </div>
               <h3 className="font-serif text-xl font-semibold text-[#1B2B40] mb-2">Search</h3>
-              <p className="text-sm text-[#6B7280] leading-relaxed">
+              <p className="text-sm text-[#4B5563] leading-relaxed">
                 Browse hundreds of unique venues across Norway and beyond.
               </p>
             </div>
@@ -178,7 +170,7 @@ export default function Home() {
                 📅
               </div>
               <h3 className="font-serif text-xl font-semibold text-[#1B2B40] mb-2">Book</h3>
-              <p className="text-sm text-[#6B7280] leading-relaxed">
+              <p className="text-sm text-[#4B5563] leading-relaxed">
                 Choose your dates, select your guests and reserve instantly.
               </p>
             </div>
@@ -187,7 +179,7 @@ export default function Home() {
                 🏖️
               </div>
               <h3 className="font-serif text-xl font-semibold text-[#1B2B40] mb-2">Enjoy</h3>
-              <p className="text-sm text-[#6B7280] leading-relaxed">
+              <p className="text-sm text-[#4B5563] leading-relaxed">
                 Arrive and enjoy your stay at a handpicked venue.
               </p>
             </div>
@@ -212,7 +204,7 @@ export default function Home() {
           </Link>
           <Link
             to="/register"
-            className="border border-white/40 text-white font-semibold px-8 py-4 rounded-xl hover:border-white/60 transition-colors text-sm"
+            className="border-2 border-white text-white font-semibold px-8 py-4 rounded-xl hover:bg-white hover:text-[#1B2B40] transition-colors text-sm"
           >
             Create Account
           </Link>
