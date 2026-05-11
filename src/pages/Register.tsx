@@ -52,7 +52,7 @@ export default function Register() {
             { icon: '✓', text: 'Free to register – no hidden fees' },
           ].map((item) => (
             <div key={item.text} className="flex items-center gap-3">
-              <span className="text-[#E8614A] font-bold" aria-hidden="true">{item.icon}</span>
+              <span className="text-white font-bold" aria-hidden="true">{item.icon}</span>
               <span className="text-white/80 text-sm">{item.text}</span>
             </div>
           ))}
