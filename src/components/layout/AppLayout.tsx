@@ -15,7 +15,7 @@ export default function AppLayout() {
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `text-sm font-medium transition-colors ${
-      isActive ? 'text-[#E8614A]' : 'text-white/80 hover:text-white'
+      isActive ? 'text-white font-bold' : 'text-white/80 hover:text-white'
     }`;
 
   return (

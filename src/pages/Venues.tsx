@@ -135,9 +135,9 @@ export default function Venues() {
         {/* Venues grid */}
         {!loading && !searching && venues.length > 0 && (
           <>
-            <p className="text-sm text-[#4B5563] mb-6" aria-live="polite">
+            <h2 className="text-sm font-normal text-[#4B5563] mb-6" aria-live="polite">
               {query ? `${venues.length} results for "${query}"` : `${venues.length} venues available`}
-            </p>
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {venues.map((venue, index) => (
                 <VenueCard key={venue.id} venue={venue} priority={index < 4} />
