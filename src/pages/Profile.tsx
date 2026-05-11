@@ -109,7 +109,7 @@ export default function Profile() {
                 className="w-24 h-24 rounded-full object-cover border-4 border-white/20"
               />
             ) : (
-              <div className="w-24 h-24 rounded-full bg-[#E8614A] flex items-center justify-center text-white font-serif text-4xl font-bold border-4 border-white/20">
+              <div className="w-24 h-24 rounded-full bg-[#E8614A] flex items-center justify-center text-white font-serif text-4xl font-bold border-4 border-white/20" aria-label={user.name}>
                 {user.name[0].toUpperCase()}
               </div>
             )}
@@ -120,11 +120,11 @@ export default function Profile() {
             <h1 className="font-serif text-3xl font-semibold text-white mb-1">
               {user.name}
             </h1>
-            <p className="text-white/50 text-sm mb-3">{user.email}</p>
+            <p className="text-white/70 text-sm mb-3">{user.email}</p>
             <span className={`inline-block text-xs font-bold px-3 py-1 rounded-full ${
               isVenueManager
-                ? 'bg-[#E8614A]/20 text-[#E8614A]'
-                : 'bg-white/10 text-white/70'
+                ? 'bg-[#E8614A]/20 text-white'
+                : 'bg-white/10 text-white/80'
             }`}>
               {isVenueManager ? '🏠 Venue Manager' : '🧳 Customer'}
             </span>
@@ -133,7 +133,7 @@ export default function Profile() {
           {/* Logout */}
           <button
             onClick={handleLogout}
-            className="sm:ml-auto border border-white/20 text-white/70 hover:text-white hover:border-white/40 text-sm font-medium px-5 py-2.5 rounded-xl transition-colors"
+            className="sm:ml-auto border border-white/40 text-white hover:border-white transition-colors text-sm font-medium px-5 py-2.5 rounded-xl"
           >
             Log Out
           </button>
@@ -153,31 +153,33 @@ export default function Profile() {
                 Update Avatar
               </h2>
               <form onSubmit={handleAvatarUpdate} className="flex flex-col gap-3">
+                <label htmlFor="avatar-url" className="sr-only">Avatar image URL</label>
                 <input
+                  id="avatar-url"
                   type="url"
                   value={avatarUrl}
                   onChange={(e) => setAvatarUrl(e.target.value)}
                   placeholder="https://example.com/image.jpg"
-                  className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors placeholder:text-[#C4BFB8]"
+                  className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors placeholder:text-[#9CA3AF]"
                 />
                 {avatarUrl && (
                   <img
                     src={avatarUrl}
-                    alt="Preview"
+                    alt="Avatar preview"
                     className="w-full h-32 object-cover rounded-xl"
                     onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                   />
                 )}
                 {avatarError && (
-                  <p className="text-red-500 text-xs">{avatarError}</p>
+                  <p className="text-red-600 text-xs" role="alert">{avatarError}</p>
                 )}
                 {avatarSuccess && (
-                  <p className="text-green-600 text-xs">Avatar updated successfully!</p>
+                  <p className="text-green-700 text-xs" role="status">Avatar updated successfully!</p>
                 )}
                 <button
                   type="submit"
                   disabled={avatarLoading}
-                  className="w-full bg-[#E8614A] text-white font-semibold py-3 rounded-xl hover:bg-[#d4553f] transition-colors disabled:opacity-60 text-sm"
+                  className="w-full bg-[#C0392B] text-white font-semibold py-3 rounded-xl hover:bg-[#a93226] transition-colors disabled:opacity-60 text-sm"
                 >
                   {avatarLoading ? 'Saving…' : 'Save Avatar'}
                 </button>
@@ -206,7 +208,7 @@ export default function Profile() {
                 </h2>
 
                 {loading && (
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4" role="status" aria-label="Loading bookings">
                     {Array.from({ length: 3 }).map((_, i) => (
                       <div key={i} className="bg-white rounded-2xl p-5 animate-pulse flex gap-4">
                         <div className="w-16 h-16 bg-[#E8E4DE] rounded-xl flex-shrink-0" />
@@ -221,12 +223,12 @@ export default function Profile() {
 
                 {!loading && upcomingBookings.length === 0 && (
                   <div className="text-center py-16 bg-white rounded-2xl border border-[#E8E4DE]">
-                    <p className="text-4xl mb-3">📅</p>
+                    <p className="text-4xl mb-3" aria-hidden="true">📅</p>
                     <h3 className="font-serif text-xl text-[#1B2B40] mb-2">No upcoming bookings</h3>
-                    <p className="text-sm text-[#8A8F9A] mb-6">You haven't booked any venues yet.</p>
+                    <p className="text-sm text-[#4B5563] mb-6">You haven't booked any venues yet.</p>
                     <Link
                       to="/venues"
-                      className="bg-[#E8614A] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#d4553f] transition-colors"
+                      className="bg-[#C0392B] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#a93226] transition-colors"
                     >
                       Browse Venues
                     </Link>
@@ -248,19 +250,21 @@ export default function Profile() {
                         <div className="flex-1 min-w-0">
                           <Link
                             to={`/venues/${booking.venue?.id}`}
-                            className="font-semibold text-[#1B2B40] hover:text-[#E8614A] transition-colors text-sm block truncate"
+                            className="font-semibold text-[#1B2B40] hover:text-[#C0392B] transition-colors text-sm block truncate"
                           >
                             {booking.venue?.name || 'Unknown venue'}
                           </Link>
-                          <p className="text-xs text-[#8A8F9A] mt-1">
+                          <p className="text-xs text-[#4B5563] mt-1">
                             {new Date(booking.dateFrom).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                             {' – '}
                             {new Date(booking.dateTo).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                           </p>
-                          <p className="text-xs text-[#8A8F9A]">👥 {booking.guests} guests</p>
+                          <p className="text-xs text-[#4B5563]">
+                            <span aria-hidden="true">👥</span> {booking.guests} guests
+                          </p>
                         </div>
                         <div className="flex-shrink-0">
-                          <span className="bg-[#7A9E8E]/15 text-[#7A9E8E] text-xs font-bold px-3 py-1.5 rounded-full">
+                          <span className="bg-[#7A9E8E]/15 text-[#4B7A6E] text-xs font-bold px-3 py-1.5 rounded-full">
                             Confirmed
                           </span>
                         </div>
@@ -279,23 +283,27 @@ export default function Profile() {
                     My Venues
                   </h2>
                   {/* Tabs */}
-                  <div className="flex gap-2">
+                  <div className="flex gap-2" role="tablist">
                     <button
+                      role="tab"
+                      aria-selected={activeTab === 'venues'}
                       onClick={() => setActiveTab('venues')}
                       className={`text-xs font-semibold px-4 py-2 rounded-lg transition-colors ${
                         activeTab === 'venues'
                           ? 'bg-[#1B2B40] text-white'
-                          : 'bg-white text-[#8A8F9A] border border-[#E8E4DE]'
+                          : 'bg-white text-[#4B5563] border border-[#E8E4DE] hover:border-[#1B2B40]'
                       }`}
                     >
                       Venues
                     </button>
                     <button
+                      role="tab"
+                      aria-selected={activeTab === 'bookings'}
                       onClick={() => setActiveTab('bookings')}
                       className={`text-xs font-semibold px-4 py-2 rounded-lg transition-colors ${
                         activeTab === 'bookings'
                           ? 'bg-[#1B2B40] text-white'
-                          : 'bg-white text-[#8A8F9A] border border-[#E8E4DE]'
+                          : 'bg-white text-[#4B5563] border border-[#E8E4DE] hover:border-[#1B2B40]'
                       }`}
                     >
                       Bookings
@@ -304,13 +312,13 @@ export default function Profile() {
                 </div>
 
                 {deleteError && (
-                  <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-lg mb-4">
+                  <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-lg mb-4" role="alert">
                     {deleteError}
                   </div>
                 )}
 
                 {loading && (
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4" role="status" aria-label="Loading venues">
                     {Array.from({ length: 3 }).map((_, i) => (
                       <div key={i} className="bg-white rounded-2xl p-5 animate-pulse h-24" />
                     ))}
@@ -322,12 +330,12 @@ export default function Profile() {
                   <>
                     {venues.length === 0 ? (
                       <div className="text-center py-16 bg-white rounded-2xl border border-[#E8E4DE]">
-                        <p className="text-4xl mb-3">🏠</p>
+                        <p className="text-4xl mb-3" aria-hidden="true">🏠</p>
                         <h3 className="font-serif text-xl text-[#1B2B40] mb-2">No venues yet</h3>
-                        <p className="text-sm text-[#8A8F9A] mb-6">Create your first venue to start accepting bookings.</p>
+                        <p className="text-sm text-[#4B5563] mb-6">Create your first venue to start accepting bookings.</p>
                         <Link
                           to="/create-venue"
-                          className="bg-[#E8614A] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#d4553f] transition-colors"
+                          className="bg-[#C0392B] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#a93226] transition-colors"
                         >
                           Create Venue
                         </Link>
@@ -347,15 +355,15 @@ export default function Profile() {
                             <div className="flex-1 min-w-0">
                               <Link
                                 to={`/venues/${venue.id}`}
-                                className="font-semibold text-[#1B2B40] hover:text-[#E8614A] transition-colors text-sm block truncate"
+                                className="font-semibold text-[#1B2B40] hover:text-[#C0392B] transition-colors text-sm block truncate"
                               >
                                 {venue.name}
                               </Link>
-                              <p className="text-xs text-[#8A8F9A] mt-1">
+                              <p className="text-xs text-[#4B5563] mt-1">
                                 NOK {venue.price.toLocaleString()} / night · Max {venue.maxGuests} guests
                               </p>
-                              <p className="text-xs text-[#8A8F9A]">
-                                📅 {venue.bookings?.length || 0} bookings
+                              <p className="text-xs text-[#4B5563]">
+                                <span aria-hidden="true">📅</span> {venue.bookings?.length || 0} bookings
                               </p>
                             </div>
                             <div className="flex gap-2 flex-shrink-0">
@@ -367,7 +375,7 @@ export default function Profile() {
                               </Link>
                               <button
                                 onClick={() => handleDeleteVenue(venue.id)}
-                                className="text-xs font-semibold border border-red-200 text-red-500 px-3 py-2 rounded-lg hover:bg-red-50 transition-colors"
+                                className="text-xs font-semibold border border-red-300 text-red-600 px-3 py-2 rounded-lg hover:bg-red-50 transition-colors"
                               >
                                 Delete
                               </button>
@@ -384,16 +392,16 @@ export default function Profile() {
                   <>
                     {venues.every((v) => !v.bookings?.length) ? (
                       <div className="text-center py-16 bg-white rounded-2xl border border-[#E8E4DE]">
-                        <p className="text-4xl mb-3">📅</p>
+                        <p className="text-4xl mb-3" aria-hidden="true">📅</p>
                         <h3 className="font-serif text-xl text-[#1B2B40] mb-2">No bookings yet</h3>
-                        <p className="text-sm text-[#8A8F9A]">Bookings on your venues will appear here.</p>
+                        <p className="text-sm text-[#4B5563]">Bookings on your venues will appear here.</p>
                       </div>
                     ) : (
                       <div className="flex flex-col gap-6">
                         {venues.filter((v) => v.bookings && v.bookings.length > 0).map((venue) => (
                           <div key={venue.id}>
                             <h3 className="font-semibold text-[#1B2B40] text-sm mb-3 flex items-center gap-2">
-                              <span className="w-2 h-2 rounded-full bg-[#E8614A]" />
+                              <span className="w-2 h-2 rounded-full bg-[#E8614A]" aria-hidden="true" />
                               {venue.name}
                             </h3>
                             <div className="flex flex-col gap-3">
@@ -401,9 +409,9 @@ export default function Profile() {
                                 <div key={booking.id} className="bg-white rounded-xl p-4 border border-[#E8E4DE] flex items-center justify-between gap-4">
                                   <div>
                                     <p className="text-sm font-semibold text-[#1B2B40]">
-                                      👥 {booking.guests} guests
+                                      <span aria-hidden="true">👥</span> {booking.guests} guests
                                     </p>
-                                    <p className="text-xs text-[#8A8F9A] mt-0.5">
+                                    <p className="text-xs text-[#4B5563] mt-0.5">
                                       {new Date(booking.dateFrom).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                                       {' – '}
                                       {new Date(booking.dateTo).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
@@ -411,8 +419,8 @@ export default function Profile() {
                                   </div>
                                   <span className={`text-xs font-bold px-3 py-1.5 rounded-full ${
                                     new Date(booking.dateTo) >= new Date()
-                                      ? 'bg-[#7A9E8E]/15 text-[#7A9E8E]'
-                                      : 'bg-[#E8E4DE] text-[#8A8F9A]'
+                                      ? 'bg-[#7A9E8E]/15 text-[#4B7A6E]'
+                                      : 'bg-[#E8E4DE] text-[#4B5563]'
                                   }`}>
                                     {new Date(booking.dateTo) >= new Date() ? 'Upcoming' : 'Past'}
                                   </span>
