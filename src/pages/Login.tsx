@@ -39,29 +39,29 @@ export default function Login() {
         <Link to="/" className="font-serif text-5xl font-bold text-white mb-6">
           Holida<span className="text-[#E8614A]">ze</span>
         </Link>
-        <p className="text-white/50 text-lg font-light max-w-xs leading-relaxed">
+        <p className="text-white/70 text-lg font-light max-w-xs leading-relaxed">
           Discover unique venues for your next unforgettable escape.
         </p>
         <div className="mt-12 flex flex-col gap-4 w-full max-w-xs">
           <div className="flex items-center gap-3 bg-white/5 rounded-xl px-5 py-4">
-            <span className="text-2xl">🏔️</span>
+            <span className="text-2xl" aria-hidden="true">🏔️</span>
             <div className="text-left">
               <div className="text-white text-sm font-semibold">Mountain Retreats</div>
-              <div className="text-white/40 text-xs">Cosy cabins with fjord views</div>
+              <div className="text-white/70 text-xs">Cosy cabins with fjord views</div>
             </div>
           </div>
           <div className="flex items-center gap-3 bg-white/5 rounded-xl px-5 py-4">
-            <span className="text-2xl">🌊</span>
+            <span className="text-2xl" aria-hidden="true">🌊</span>
             <div className="text-left">
               <div className="text-white text-sm font-semibold">Coastal Stays</div>
-              <div className="text-white/40 text-xs">Wake up to the sound of waves</div>
+              <div className="text-white/70 text-xs">Wake up to the sound of waves</div>
             </div>
           </div>
           <div className="flex items-center gap-3 bg-white/5 rounded-xl px-5 py-4">
-            <span className="text-2xl">🏙️</span>
+            <span className="text-2xl" aria-hidden="true">🏙️</span>
             <div className="text-left">
               <div className="text-white text-sm font-semibold">City Lofts</div>
-              <div className="text-white/40 text-xs">Design apartments in the heart of the city</div>
+              <div className="text-white/70 text-xs">Design apartments in the heart of the city</div>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default function Login() {
             <h1 className="font-serif text-3xl font-semibold text-[#1B2B40] mb-1">
               Welcome back
             </h1>
-            <p className="text-sm text-[#8A8F9A] mb-8">Sign in to your account</p>
+            <p className="text-sm text-[#4B5563] mb-8">Sign in to your account</p>
 
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-lg mb-6">
@@ -92,37 +92,45 @@ export default function Login() {
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               <div>
-                <label className="block text-sm font-semibold text-[#2D3340] mb-2">
+                <label
+                  htmlFor="login-email"
+                  className="block text-sm font-semibold text-[#2D3340] mb-2"
+                >
                   Email address
                 </label>
                 <input
+                  id="login-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@stud.noroff.no"
                   required
-                  className="w-full px-4 py-3 border-2 border-[#E8E4DE] rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] focus:bg-white transition-colors placeholder:text-[#C4BFB8]"
+                  className="w-full px-4 py-3 border-2 border-[#E8E4DE] rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] focus:bg-white transition-colors placeholder:text-[#9CA3AF]"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-[#2D3340] mb-2">
+                <label
+                  htmlFor="login-password"
+                  className="block text-sm font-semibold text-[#2D3340] mb-2"
+                >
                   Password
                 </label>
                 <input
+                  id="login-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full px-4 py-3 border-2 border-[#E8E4DE] rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] focus:bg-white transition-colors placeholder:text-[#C4BFB8]"
+                  className="w-full px-4 py-3 border-2 border-[#E8E4DE] rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] focus:bg-white transition-colors placeholder:text-[#9CA3AF]"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#E8614A] text-white font-semibold py-4 rounded-xl hover:bg-[#d4553f] transition-colors disabled:opacity-60 disabled:cursor-not-allowed mt-2 text-sm tracking-wide"
+                className="w-full bg-[#C0392B] text-white font-semibold py-4 rounded-xl hover:bg-[#a93226] transition-colors disabled:opacity-60 disabled:cursor-not-allowed mt-2 text-sm tracking-wide"
               >
                 {loading ? 'Signing in…' : 'Sign In'}
               </button>
@@ -130,13 +138,13 @@ export default function Login() {
 
             <div className="flex items-center gap-3 my-6">
               <div className="flex-1 h-px bg-[#E8E4DE]" />
-              <span className="text-xs text-[#8A8F9A]">or</span>
+              <span className="text-xs text-[#4B5563]">or</span>
               <div className="flex-1 h-px bg-[#E8E4DE]" />
             </div>
 
-            <p className="text-center text-sm text-[#8A8F9A]">
+            <p className="text-center text-sm text-[#4B5563]">
               Don't have an account?{' '}
-              <Link to="/register" className="text-[#E8614A] font-semibold hover:underline">
+              <Link to="/register" className="text-[#C0392B] font-semibold hover:underline">
                 Register
               </Link>
             </p>
