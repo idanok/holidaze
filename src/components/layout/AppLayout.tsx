@@ -15,7 +15,7 @@ export default function AppLayout() {
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `text-sm font-medium transition-colors ${
-      isActive ? 'text-[#E8614A]' : 'text-white/70 hover:text-white'
+      isActive ? 'text-[#E8614A]' : 'text-white/80 hover:text-white'
     }`;
 
   return (
@@ -31,13 +31,13 @@ export default function AppLayout() {
           </Link>
 
           {/* Desktop nav */}
-<nav className="hidden lg:flex items-center gap-8">
-  <NavLink to="/venues" className={navLinkClass}>Venues</NavLink>
-  <NavLink to="/about" className={navLinkClass}>About</NavLink>
-  {isLoggedIn && isVenueManager && (
-    <NavLink to="/profile" className={navLinkClass}>Dashboard</NavLink>
-  )}
-</nav>
+          <nav className="hidden lg:flex items-center gap-8">
+            <NavLink to="/venues" className={navLinkClass}>Venues</NavLink>
+            <NavLink to="/about" className={navLinkClass}>About</NavLink>
+            {isLoggedIn && isVenueManager && (
+              <NavLink to="/profile" className={navLinkClass}>Dashboard</NavLink>
+            )}
+          </nav>
 
           {/* Desktop right side */}
           <div className="hidden lg:flex items-center gap-4">
@@ -45,13 +45,13 @@ export default function AppLayout() {
               <>
                 <Link
                   to="/login"
-                  className="text-sm font-medium text-white/70 hover:text-white transition-colors"
+                  className="text-sm font-medium text-white/80 hover:text-white transition-colors"
                 >
                   Log In
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-[#E8614A] text-white text-sm font-semibold px-7 py-3.5 rounded-lg hover:bg-[#d4553f] transition-colors"
+                  className="bg-[#C0392B] text-white text-sm font-semibold px-7 py-3.5 rounded-lg hover:bg-[#a93226] transition-colors"
                 >
                   Register
                 </Link>
@@ -60,13 +60,13 @@ export default function AppLayout() {
               <>
                 <Link
                   to="/profile"
-                  className="text-sm font-medium text-white/70 hover:text-[#E8614A] transition-colors"
+                  className="text-sm font-medium text-white/80 hover:text-[#E8614A] transition-colors"
                 >
                   {user?.name}
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="border border-white/20 text-white/80 hover:text-white hover:border-white/40 text-sm font-medium px-5 py-3 rounded-lg transition-colors"
+                  className="border border-white/40 text-white hover:border-white transition-colors text-sm font-medium px-5 py-3 rounded-lg"
                 >
                   Log Out
                 </button>
@@ -113,13 +113,36 @@ export default function AppLayout() {
 
                 {!isLoggedIn ? (
                   <>
-                    <Link to="/login" className="text-sm font-medium text-white/70 hover:text-white" onClick={() => setMenuOpen(false)}>Log In</Link>
-                    <Link to="/register" className="bg-[#E8614A] text-white text-sm font-semibold px-6 py-3.5 rounded-lg text-center hover:bg-[#d4553f] transition-colors" onClick={() => setMenuOpen(false)}>Register</Link>
+                    <Link
+                      to="/login"
+                      className="text-sm font-medium text-white/80 hover:text-white"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Log In
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="bg-[#C0392B] text-white text-sm font-semibold px-6 py-3.5 rounded-lg text-center hover:bg-[#a93226] transition-colors"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Register
+                    </Link>
                   </>
                 ) : (
                   <>
-                    <Link to="/profile" className="text-sm font-medium text-white/70 hover:text-white" onClick={() => setMenuOpen(false)}>{user?.name}</Link>
-                    <button onClick={handleLogout} className="text-sm font-medium text-white/70 hover:text-white text-left">Log Out</button>
+                    <Link
+                      to="/profile"
+                      className="text-sm font-medium text-white/80 hover:text-white"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {user?.name}
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="text-sm font-medium text-white/80 hover:text-white text-left"
+                    >
+                      Log Out
+                    </button>
                   </>
                 )}
               </div>
@@ -139,7 +162,7 @@ export default function AppLayout() {
           <Link to="/" className="font-serif text-xl font-bold text-white">
             Holida<span className="text-[#E8614A]">ze</span>
           </Link>
-          <p className="text-sm text-white/40 text-center sm:absolute sm:left-1/2 sm:-translate-x-1/2">
+          <p className="text-sm text-white/70 text-center sm:absolute sm:left-1/2 sm:-translate-x-1/2">
             © 2026 Holidaze. Built for Noroff Project Exam 2.
           </p>
           <div />
