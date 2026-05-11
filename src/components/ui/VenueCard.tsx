@@ -31,7 +31,7 @@ export default function VenueCard({ venue, priority = false }: Props) {
         />
         {venue.rating > 0 && (
           <div className="absolute top-3 right-3 bg-white text-[#1B2B40] text-xs font-bold px-2.5 py-1.5 rounded-full flex items-center gap-1 shadow-sm">
-            <span className="text-[#F2C784]">★</span>
+            <span className="text-[#92660A]">★</span>
             {venue.rating.toFixed(1)}
           </div>
         )}
@@ -39,7 +39,7 @@ export default function VenueCard({ venue, priority = false }: Props) {
 
       {/* Body */}
       <div className="p-5">
-        <p className="text-xs text-[#8A8F9A] mb-1">
+        <p className="text-xs text-[#4B5563] mb-1">
           📍 {city}{country ? `, ${country}` : ''}
         </p>
         <h3 className="font-serif text-lg font-semibold text-[#1B2B40] mb-3 leading-tight line-clamp-1">
@@ -68,9 +68,9 @@ export default function VenueCard({ venue, priority = false }: Props) {
             <span className="font-serif text-xl font-bold text-[#1B2B40]">
               NOK {venue.price.toLocaleString()}
             </span>
-            <span className="text-xs text-[#8A8F9A] ml-1">/ night</span>
+            <span className="text-xs text-[#4B5563] ml-1">/ night</span>
           </div>
-          <div className="text-xs text-[#8A8F9A]">
+          <div className="text-xs text-[#4B5563]">
             👥 Max {venue.maxGuests}
           </div>
         </div>
