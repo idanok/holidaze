@@ -55,24 +55,35 @@ export default function Venues() {
         <h1 className="font-serif text-5xl font-light text-white mb-4">
           Explore <span className="text-[#E8614A]">Venues</span>
         </h1>
-        <p className="text-white/50 mb-8 text-sm">
+        <p className="text-white/70 mb-8 text-sm">
           Find the perfect place for your next getaway
         </p>
 
         {/* Search */}
-        <div className="flex max-w-xl mx-auto bg-white rounded-xl overflow-hidden shadow-lg">
-        <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search destinations, venues…"
-        aria-label="Search venues"
-        className="flex-1 px-5 py-4 text-sm text-[#2D3340] outline-none bg-transparent placeholder:text-[#C4BFB8]"
-/>
-          <button className="bg-[#E8614A] px-6 text-white text-sm font-semibold hover:bg-[#d4553f] transition-colors">
+        <form
+          role="search"
+          onSubmit={(e) => e.preventDefault()}
+          className="flex max-w-xl mx-auto bg-white rounded-xl overflow-hidden shadow-lg"
+        >
+          <label htmlFor="venues-search" className="sr-only">
+            Search destinations and venues
+          </label>
+          <input
+            id="venues-search"
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search destinations, venues…"
+            className="flex-1 px-5 py-4 text-sm text-[#2D3340] outline-none bg-transparent placeholder:text-[#9CA3AF]"
+          />
+          <button
+            type="submit"
+            aria-label="Submit search"
+            className="bg-[#C0392B] px-6 text-white text-sm font-semibold hover:bg-[#a93226] transition-colors"
+          >
             Search
           </button>
-        </div>
+        </form>
       </div>
 
       {/* Content */}
@@ -80,7 +91,11 @@ export default function Venues() {
 
         {/* Loading */}
         {(loading || searching) && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div
+            role="status"
+            aria-label="Loading venues"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          >
             {Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm animate-pulse">
                 <div className="h-52 bg-[#E8E4DE]" />
@@ -97,11 +112,11 @@ export default function Venues() {
 
         {/* Error */}
         {error && !loading && (
-          <div className="text-center py-20">
-            <p className="text-[#E8614A] text-lg mb-4">{error}</p>
+          <div className="text-center py-20" role="alert">
+            <p className="text-[#C0392B] text-lg mb-4">{error}</p>
             <button
               onClick={fetchVenues}
-              className="bg-[#E8614A] text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-[#d4553f] transition-colors"
+              className="bg-[#C0392B] text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-[#a93226] transition-colors"
             >
               Try again
             </button>
@@ -111,21 +126,21 @@ export default function Venues() {
         {/* Empty state */}
         {!loading && !searching && !error && venues.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-4xl mb-4">🔍</p>
+            <p className="text-4xl mb-4" aria-hidden="true">🔍</p>
             <h2 className="font-serif text-2xl text-[#1B2B40] mb-2">No venues found</h2>
-            <p className="text-[#8A8F9A] text-sm">Try a different search term</p>
+            <p className="text-[#4B5563] text-sm">Try a different search term</p>
           </div>
         )}
 
         {/* Venues grid */}
         {!loading && !searching && venues.length > 0 && (
           <>
-            <p className="text-sm text-[#8A8F9A] mb-6">
+            <p className="text-sm text-[#4B5563] mb-6" aria-live="polite">
               {query ? `${venues.length} results for "${query}"` : `${venues.length} venues available`}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {venues.map((venue) => (
-                <VenueCard key={venue.id} venue={venue} />
+              {venues.map((venue, index) => (
+                <VenueCard key={venue.id} venue={venue} priority={index < 4} />
               ))}
             </div>
           </>
