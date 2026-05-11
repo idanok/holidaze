@@ -187,7 +187,7 @@ export default function Profile() {
             {/* Manager – create venue button */}
             {isVenueManager && (
               <Link
-                to="/manager/venues/create"
+                to="/create-venue"
                 className="bg-[#1B2B40] text-white font-semibold py-4 px-6 rounded-2xl hover:bg-[#2d4460] transition-colors text-sm text-center shadow-sm"
               >
                 + Create New Venue
@@ -326,7 +326,7 @@ export default function Profile() {
                         <h3 className="font-serif text-xl text-[#1B2B40] mb-2">No venues yet</h3>
                         <p className="text-sm text-[#8A8F9A] mb-6">Create your first venue to start accepting bookings.</p>
                         <Link
-                          to="/manager/venues/create"
+                          to="/create-venue"
                           className="bg-[#E8614A] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#d4553f] transition-colors"
                         >
                           Create Venue
@@ -360,7 +360,7 @@ export default function Profile() {
                             </div>
                             <div className="flex gap-2 flex-shrink-0">
                               <Link
-                                to={`/manager/venues/${venue.id}/edit`}
+                                to={`/edit-venue/${venue.id}`}
                                 className="text-xs font-semibold bg-[#1B2B40] text-white px-3 py-2 rounded-lg hover:bg-[#2d4460] transition-colors"
                               >
                                 Edit

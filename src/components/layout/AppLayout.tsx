@@ -31,14 +31,13 @@ export default function AppLayout() {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-8">
-            <NavLink to="/venues" className={navLinkClass}>Venues</NavLink>
-            <NavLink to="/about" className={navLinkClass}>About</NavLink>
-            <NavLink to="/destinations" className={navLinkClass}>Destinations</NavLink>
-            {isLoggedIn && isVenueManager && (
-              <NavLink to="/dashboard" className={navLinkClass}>Dashboard</NavLink>
-            )}
-          </nav>
+<nav className="hidden lg:flex items-center gap-8">
+  <NavLink to="/venues" className={navLinkClass}>Venues</NavLink>
+  <NavLink to="/about" className={navLinkClass}>About</NavLink>
+  {isLoggedIn && isVenueManager && (
+    <NavLink to="/profile" className={navLinkClass}>Dashboard</NavLink>
+  )}
+</nav>
 
           {/* Desktop right side */}
           <div className="hidden lg:flex items-center gap-4">

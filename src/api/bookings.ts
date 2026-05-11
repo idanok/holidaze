@@ -12,6 +12,7 @@ export async function createBooking(
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
+      'X-Noroff-API-Key': import.meta.env.VITE_API_KEY,
     },
     body: JSON.stringify({ venueId, dateFrom, dateTo, guests }),
   });

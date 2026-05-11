@@ -4,7 +4,10 @@ export async function getProfileBookings(name: string, token: string) {
   const response = await fetch(
     `${BASE_URL}/holidaze/profiles/${name}/bookings?_venue=true`,
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'X-Noroff-API-Key': import.meta.env.VITE_API_KEY,
+      },
     }
   );
   const data = await response.json();
@@ -16,7 +19,10 @@ export async function getProfileVenues(name: string, token: string) {
   const response = await fetch(
     `${BASE_URL}/holidaze/profiles/${name}/venues?_bookings=true`,
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'X-Noroff-API-Key': import.meta.env.VITE_API_KEY,
+      },
     }
   );
   const data = await response.json();
@@ -30,6 +36,7 @@ export async function updateAvatar(name: string, token: string, url: string) {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
+      'X-Noroff-API-Key': import.meta.env.VITE_API_KEY,
     },
     body: JSON.stringify({ avatar: { url, alt: name } }),
   });
@@ -39,9 +46,12 @@ export async function updateAvatar(name: string, token: string, url: string) {
 }
 
 export async function deleteVenue(id: string, token: string) {
-  const response = await fetch(`https://v2.api.noroff.dev/holidaze/venues/${id}`, {
+  const response = await fetch(`${BASE_URL}/holidaze/venues/${id}`, {
     method: 'DELETE',
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'X-Noroff-API-Key': import.meta.env.VITE_API_KEY,
+    },
   });
   if (!response.ok) throw new Error('Failed to delete venue');
 }

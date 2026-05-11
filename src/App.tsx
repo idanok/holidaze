@@ -6,6 +6,8 @@ import Register from './pages/Register';
 import Venues from './pages/Venues';
 import VenueDetail from './pages/VenueDetail';
 import Profile from './pages/Profile';
+import EditVenue from './pages/manager/EditVenue';
+import CreateVenue from './pages/manager/CreateVenue';
 
 export default function App() {
   return (
@@ -18,6 +20,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/create-venue" element={<CreateVenue />} />
+          <Route path="/edit-venue/:id" element={<EditVenue />} />
         </Route>
       </Routes>
     </BrowserRouter>

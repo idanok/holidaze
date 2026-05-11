@@ -16,8 +16,13 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      const user = await loginUser(email, password);
-      login(user.accessToken, user);
+      const data = await loginUser(email, password);
+      login(data.accessToken, {
+        name: data.name,
+        email: data.email,
+        venueManager: data.venueManager ?? false,
+        avatar: data.avatar,
+      });
       navigate('/');
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Login failed');

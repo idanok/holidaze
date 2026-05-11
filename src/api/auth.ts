@@ -1,17 +1,20 @@
 const BASE_URL = 'https://v2.api.noroff.dev';
 
 export async function loginUser(email: string, password: string) {
-  const response = await fetch(`${BASE_URL}/auth/login`, {
+  const response = await fetch(`${BASE_URL}/auth/login?_holidaze=true`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Noroff-API-Key': import.meta.env.VITE_API_KEY,
+    },
     body: JSON.stringify({ email, password }),
   });
 
   const data = await response.json();
-
+  console.log('Login response:', data);
   if (!response.ok) {
-    console.error('Login error:', data);
-    throw new Error(data.errors?.[0]?.message || 'Login failed');
+    const messages = data.errors?.map((e: { message: string }) => e.message).join(', ');
+    throw new Error(messages || 'Login failed');
   }
 
   return data.data;
@@ -25,14 +28,15 @@ export async function registerUser(
 ) {
   const response = await fetch(`${BASE_URL}/auth/register`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Noroff-API-Key': import.meta.env.VITE_API_KEY,
+    },
     body: JSON.stringify({ name, email, password, venueManager }),
   });
 
   const data = await response.json();
-
   if (!response.ok) {
-    console.error('Register error:', data);
     const messages = data.errors?.map((e: { message: string }) => e.message).join(', ');
     throw new Error(messages || 'Registration failed');
   }

@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { createVenue } from '../../api/venues';
+import { getVenueById, updateVenue } from '../../api/venues';
 
-export default function CreateVenue() {
+export default function EditVenue() {
+  const { id } = useParams<{ id: string }>();
   const { token, isVenueManager } = useAuth();
   const navigate = useNavigate();
 
@@ -18,7 +19,46 @@ export default function CreateVenue() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!id) return;
+    async function fetchVenue() {
+      try {
+        const data = await getVenueById(id!);
+        setForm({
+          name: data.name || '',
+          description: data.description || '',
+          price: data.price || 0,
+          maxGuests: data.maxGuests || 0,
+          media: data.media?.length ? data.media : [{ url: '', alt: '' }],
+          meta: data.meta || { wifi: false, parking: false, breakfast: false, pets: false },
+          location: data.location || { address: '', city: '', country: '' },
+        });
+      } catch {
+        setError('Failed to load venue');
+      } finally {
+        setFetching(false);
+      }
+    }
+    fetchVenue();
+  }, [id]);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!token || !id) return;
+    setError('');
+    setLoading(true);
+    try {
+      const venue = await updateVenue(id, form, token);
+      navigate(`/venues/${venue.id}`);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to update venue');
+    } finally {
+      setLoading(false);
+    }
+  }
 
   if (!isVenueManager) {
     return (
@@ -26,7 +66,6 @@ export default function CreateVenue() {
         <div className="text-center">
           <p className="text-4xl mb-4">🚫</p>
           <h2 className="font-serif text-2xl text-[#1B2B40] mb-2">Access denied</h2>
-          <p className="text-sm text-[#8A8F9A] mb-6">Only venue managers can create venues.</p>
           <Link to="/" className="bg-[#E8614A] text-white px-6 py-3 rounded-xl text-sm font-semibold">
             Go Home
           </Link>
@@ -35,19 +74,12 @@ export default function CreateVenue() {
     );
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!token) return;
-    setError('');
-    setLoading(true);
-    try {
-      const venue = await createVenue(form, token);
-      navigate(`/venues/${venue.id}`);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to create venue');
-    } finally {
-      setLoading(false);
-    }
+  if (fetching) {
+    return (
+      <div className="min-h-screen bg-[#FAF6F0] flex items-center justify-center">
+        <p className="text-[#8A8F9A]">Loading venue…</p>
+      </div>
+    );
   }
 
   return (
@@ -59,10 +91,10 @@ export default function CreateVenue() {
           <div className="flex items-center gap-2 text-white/40 text-sm mb-4">
             <Link to="/profile" className="hover:text-white transition-colors">Dashboard</Link>
             <span>›</span>
-            <span className="text-white/70">Create Venue</span>
+            <span className="text-white/70">Edit Venue</span>
           </div>
-          <h1 className="font-serif text-4xl font-light text-white">Create a new venue</h1>
-          <p className="text-white/50 text-sm mt-2">Fill in the details to list your venue on Holidaze.</p>
+          <h1 className="font-serif text-4xl font-light text-white">Edit venue</h1>
+          <p className="text-white/50 text-sm mt-2">Update your venue details below.</p>
         </div>
       </div>
 
@@ -87,9 +119,8 @@ export default function CreateVenue() {
                   type="text"
                   value={form.name}
                   onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
-                  placeholder="e.g. Fjordview Mountain Cabin"
                   required
-                  className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors placeholder:text-[#C4BFB8]"
+                  className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors"
                 />
               </div>
               <div>
@@ -97,10 +128,9 @@ export default function CreateVenue() {
                 <textarea
                   value={form.description}
                   onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
-                  placeholder="Describe your venue – what makes it special…"
                   required
                   rows={4}
-                  className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors placeholder:text-[#C4BFB8] resize-none"
+                  className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors resize-none"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -110,10 +140,9 @@ export default function CreateVenue() {
                     type="number"
                     value={form.price || ''}
                     onChange={(e) => setForm((p) => ({ ...p, price: Number(e.target.value) }))}
-                    placeholder="1200"
                     required
                     min={1}
-                    className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors placeholder:text-[#C4BFB8]"
+                    className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors"
                   />
                 </div>
                 <div>
@@ -122,10 +151,9 @@ export default function CreateVenue() {
                     type="number"
                     value={form.maxGuests || ''}
                     onChange={(e) => setForm((p) => ({ ...p, maxGuests: Number(e.target.value) }))}
-                    placeholder="4"
                     required
                     min={1}
-                    className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors placeholder:text-[#C4BFB8]"
+                    className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors"
                   />
                 </div>
               </div>
@@ -141,13 +169,11 @@ export default function CreateVenue() {
               <label className="block text-sm font-bold text-[#1B2B40] mb-2">Image URL</label>
               <input
                 type="url"
-                value={form.media[0].url}
-                onChange={(e) => setForm((p) => ({ ...p, media: [{ url: e.target.value, alt: p.name }] }))}
-                placeholder="https://images.unsplash.com/…"
-                className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors placeholder:text-[#C4BFB8]"
+                value={form.media[0]?.url || ''}
+                onChange={(e) => setForm((p) => ({ ...p, media: [{ url: e.target.value, alt: p.media[0]?.alt || p.name }] }))}
+                className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors"
               />
-              <p className="text-xs text-[#8A8F9A] mt-1">Paste a direct image URL. Use a high-quality landscape photo.</p>
-              {form.media[0].url && (
+              {form.media[0]?.url && (
                 <img
                   src={form.media[0].url}
                   alt="Preview"
@@ -200,8 +226,7 @@ export default function CreateVenue() {
                   type="text"
                   value={form.location.address}
                   onChange={(e) => setForm((p) => ({ ...p, location: { ...p.location, address: e.target.value } }))}
-                  placeholder="Fjordvegen 12"
-                  className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors placeholder:text-[#C4BFB8]"
+                  className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -211,8 +236,7 @@ export default function CreateVenue() {
                     type="text"
                     value={form.location.city}
                     onChange={(e) => setForm((p) => ({ ...p, location: { ...p.location, city: e.target.value } }))}
-                    placeholder="Bergen"
-                    className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors placeholder:text-[#C4BFB8]"
+                    className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors"
                   />
                 </div>
                 <div>
@@ -221,8 +245,7 @@ export default function CreateVenue() {
                     type="text"
                     value={form.location.country}
                     onChange={(e) => setForm((p) => ({ ...p, location: { ...p.location, country: e.target.value } }))}
-                    placeholder="Norway"
-                    className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors placeholder:text-[#C4BFB8]"
+                    className="w-full px-4 py-3 border-2 border-[#E8614A]/40 rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] transition-colors"
                   />
                 </div>
               </div>
@@ -236,7 +259,7 @@ export default function CreateVenue() {
               disabled={loading}
               className="bg-[#E8614A] text-white font-semibold px-8 py-4 rounded-xl hover:bg-[#d4553f] transition-colors disabled:opacity-60 disabled:cursor-not-allowed text-sm"
             >
-              {loading ? 'Publishing…' : 'Publish Venue'}
+              {loading ? 'Saving…' : 'Save Changes'}
             </button>
             <Link
               to="/profile"
