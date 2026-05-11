@@ -156,18 +156,15 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 text-center">
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 rounded-full bg-[#1B2B40] flex items-center justify-center text-2xl mb-5" aria-hidden="true">
-                🔍
-              </div>
-              <h3 className="font-serif text-xl font-semibold text-[#1B2B40] mb-2">Search</h3>
-              <p className="text-sm text-[#4B5563] leading-relaxed">
-                Browse hundreds of unique venues across Norway and beyond.
-              </p>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 rounded-full bg-[#E8614A] flex items-center justify-center text-2xl mb-5" aria-hidden="true">
-                📅
-              </div>
+            <div className="w-16 h-16 rounded-full bg-[#1B2B40] flex items-center justify-center text-2xl mb-5 text-white" aria-hidden="true">
+  🔍
+</div>
+<div className="w-16 h-16 rounded-full bg-[#E8614A] flex items-center justify-center text-2xl mb-5 text-white" aria-hidden="true">
+  📅
+</div>
+<div className="w-16 h-16 rounded-full bg-[#7A9E8E] flex items-center justify-center text-2xl mb-5 text-white" aria-hidden="true">
+  🏖️
+</div>
               <h3 className="font-serif text-xl font-semibold text-[#1B2B40] mb-2">Book</h3>
               <p className="text-sm text-[#4B5563] leading-relaxed">
                 Choose your dates, select your guests and reserve instantly.
