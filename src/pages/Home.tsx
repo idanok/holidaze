@@ -60,21 +60,25 @@ export default function Home() {
           </h1>
 
           {/* Subtext */}
-          <p className="text-white/50 text-base mb-10 max-w-md leading-relaxed">
+          <p className="text-white/70 text-base mb-10 max-w-md leading-relaxed">
             Discover unique venues handpicked for unforgettable experiences — from coastal retreats to mountain hideaways.
           </p>
 
           {/* Search bar */}
           <form onSubmit={handleSearch} className="flex bg-white rounded-xl overflow-hidden shadow-2xl max-w-lg">
+            <label htmlFor="hero-search" className="sr-only">Search destinations and venues</label>
             <input
+              id="hero-search"
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search destinations, venues…"
+              aria-label="Search destinations and venues"
               className="flex-1 px-5 py-4 text-sm text-[#2D3340] outline-none bg-transparent placeholder:text-[#C4BFB8]"
             />
             <button
               type="submit"
+              aria-label="Submit search"
               className="bg-[#E8614A] px-7 text-white text-sm font-semibold hover:bg-[#d4553f] transition-colors"
             >
               Search
@@ -88,15 +92,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 py-6 grid grid-cols-3 gap-6 text-center">
           <div>
             <p className="font-serif text-3xl font-bold text-[#1B2B40]">500+</p>
-            <p className="text-xs text-[#8A8F9A] mt-1">Venues available</p>
+            <p className="text-xs text-[#6B7280] mt-1">Venues available</p>
           </div>
           <div>
             <p className="font-serif text-3xl font-bold text-[#1B2B40]">50+</p>
-            <p className="text-xs text-[#8A8F9A] mt-1">Destinations</p>
+            <p className="text-xs text-[#6B7280] mt-1">Destinations</p>
           </div>
           <div>
             <p className="font-serif text-3xl font-bold text-[#1B2B40]">4.8 ★</p>
-            <p className="text-xs text-[#8A8F9A] mt-1">Average rating</p>
+            <p className="text-xs text-[#6B7280] mt-1">Average rating</p>
           </div>
         </div>
       </div>
@@ -105,7 +109,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-xs font-semibold text-[#8A8F9A] tracking-widest uppercase mb-2">
+            <p className="text-xs font-semibold text-[#6B7280] tracking-widest uppercase mb-2">
               Handpicked for you
             </p>
             <h2 className="font-serif text-4xl font-light text-[#1B2B40]">
@@ -114,7 +118,8 @@ export default function Home() {
           </div>
           <Link
             to="/venues"
-            className="text-sm font-semibold text-[#E8614A] hover:underline hidden sm:block"
+            className="text-sm font-semibold text-[#E8614A] hover:underline"
+            aria-label="View all venues"
           >
             View all →
           </Link>
@@ -139,27 +144,18 @@ export default function Home() {
         {/* Venue cards */}
         {!loading && featured.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featured.map((venue) => (
-              <VenueCard key={venue.id} venue={venue} />
+            {featured.map((venue, index) => (
+              <VenueCard key={venue.id} venue={venue} priority={index < 4} />
             ))}
           </div>
         )}
-
-        <div className="text-center mt-10 sm:hidden">
-          <Link
-            to="/venues"
-            className="text-sm font-semibold text-[#E8614A] hover:underline"
-          >
-            View all venues →
-          </Link>
-        </div>
       </div>
 
       {/* ── HOW IT WORKS ── */}
       <div className="bg-white border-t border-[#E8E4DE] py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <p className="text-xs font-semibold text-[#8A8F9A] tracking-widest uppercase mb-2">
+            <p className="text-xs font-semibold text-[#6B7280] tracking-widest uppercase mb-2">
               Simple and easy
             </p>
             <h2 className="font-serif text-4xl font-light text-[#1B2B40]">
@@ -169,29 +165,29 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 text-center">
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 rounded-full bg-[#1B2B40] flex items-center justify-center text-2xl mb-5">
+              <div className="w-16 h-16 rounded-full bg-[#1B2B40] flex items-center justify-center text-2xl mb-5" aria-hidden="true">
                 🔍
               </div>
               <h3 className="font-serif text-xl font-semibold text-[#1B2B40] mb-2">Search</h3>
-              <p className="text-sm text-[#8A8F9A] leading-relaxed">
+              <p className="text-sm text-[#6B7280] leading-relaxed">
                 Browse hundreds of unique venues across Norway and beyond.
               </p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 rounded-full bg-[#E8614A] flex items-center justify-center text-2xl mb-5">
+              <div className="w-16 h-16 rounded-full bg-[#E8614A] flex items-center justify-center text-2xl mb-5" aria-hidden="true">
                 📅
               </div>
               <h3 className="font-serif text-xl font-semibold text-[#1B2B40] mb-2">Book</h3>
-              <p className="text-sm text-[#8A8F9A] leading-relaxed">
+              <p className="text-sm text-[#6B7280] leading-relaxed">
                 Choose your dates, select your guests and reserve instantly.
               </p>
             </div>
             <div className="flex flex-col items-center">
-              <div className="w-16 h-16 rounded-full bg-[#7A9E8E] flex items-center justify-center text-2xl mb-5">
+              <div className="w-16 h-16 rounded-full bg-[#7A9E8E] flex items-center justify-center text-2xl mb-5" aria-hidden="true">
                 🏖️
               </div>
               <h3 className="font-serif text-xl font-semibold text-[#1B2B40] mb-2">Enjoy</h3>
-              <p className="text-sm text-[#8A8F9A] leading-relaxed">
+              <p className="text-sm text-[#6B7280] leading-relaxed">
                 Arrive and enjoy your stay at a handpicked venue.
               </p>
             </div>
@@ -204,7 +200,7 @@ export default function Home() {
         <h2 className="font-serif text-4xl font-light text-white mb-4">
           Ready to find your <span className="text-[#E8614A]">escape?</span>
         </h2>
-        <p className="text-white/50 text-sm mb-8 max-w-md mx-auto">
+        <p className="text-white/70 text-sm mb-8 max-w-md mx-auto">
           Join thousands of travellers who have found their perfect stay on Holidaze.
         </p>
         <div className="flex gap-4 justify-center flex-wrap">
@@ -216,7 +212,7 @@ export default function Home() {
           </Link>
           <Link
             to="/register"
-            className="border border-white/20 text-white font-semibold px-8 py-4 rounded-xl hover:border-white/40 transition-colors text-sm"
+            className="border border-white/40 text-white font-semibold px-8 py-4 rounded-xl hover:border-white/60 transition-colors text-sm"
           >
             Create Account
           </Link>

@@ -61,13 +61,14 @@ export default function Venues() {
 
         {/* Search */}
         <div className="flex max-w-xl mx-auto bg-white rounded-xl overflow-hidden shadow-lg">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search destinations, venues…"
-            className="flex-1 px-5 py-4 text-sm text-[#2D3340] outline-none bg-transparent placeholder:text-[#C4BFB8]"
-          />
+        <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search destinations, venues…"
+        aria-label="Search venues"
+        className="flex-1 px-5 py-4 text-sm text-[#2D3340] outline-none bg-transparent placeholder:text-[#C4BFB8]"
+/>
           <button className="bg-[#E8614A] px-6 text-white text-sm font-semibold hover:bg-[#d4553f] transition-colors">
             Search
           </button>
