@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '../api/auth';
+import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -10,14 +11,21 @@ export default function Register() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
     setLoading(true);
     try {
-      await registerUser(name, email, password, venueManager);
-      navigate('/login');
+      const data = await registerUser(name, email, password, venueManager);
+      login(data.accessToken, {
+        name: data.name,
+        email: data.email,
+        venueManager: data.venueManager ?? false,
+        avatar: data.avatar,
+      });
+      navigate('/profile');
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Registration failed');
     } finally {
@@ -33,7 +41,7 @@ export default function Register() {
         <Link to="/" className="font-serif text-5xl font-bold text-white mb-6">
           Holida<span className="text-[#E8614A]">ze</span>
         </Link>
-        <p className="text-white/50 text-lg font-light max-w-xs leading-relaxed">
+        <p className="text-white/70 text-lg font-light max-w-xs leading-relaxed">
           List your venue or discover your next perfect stay.
         </p>
         <div className="mt-12 flex flex-col gap-3 w-full max-w-xs text-left">
@@ -44,8 +52,8 @@ export default function Register() {
             { icon: '✓', text: 'Free to register – no hidden fees' },
           ].map((item) => (
             <div key={item.text} className="flex items-center gap-3">
-              <span className="text-[#E8614A] font-bold">{item.icon}</span>
-              <span className="text-white/60 text-sm">{item.text}</span>
+              <span className="text-[#E8614A] font-bold" aria-hidden="true">{item.icon}</span>
+              <span className="text-white/80 text-sm">{item.text}</span>
             </div>
           ))}
         </div>
@@ -66,94 +74,99 @@ export default function Register() {
             <h1 className="font-serif text-3xl font-semibold text-[#1B2B40] mb-1">
               Create account
             </h1>
-            <p className="text-sm text-[#8A8F9A] mb-8">Join Holidaze today</p>
+            <p className="text-sm text-[#4B5563] mb-8">Join Holidaze today</p>
 
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-lg mb-6">
+              <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-lg mb-6" role="alert">
                 {error}
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               <div>
-                <label className="block text-sm font-semibold text-[#2D3340] mb-2">
+                <label htmlFor="register-name" className="block text-sm font-semibold text-[#2D3340] mb-2">
                   Username
                 </label>
                 <input
+                  id="register-name"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="my_username"
                   required
-                  className="w-full px-4 py-3 border-2 border-[#E8E4DE] rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] focus:bg-white transition-colors placeholder:text-[#C4BFB8]"
+                  className="w-full px-4 py-3 border-2 border-[#E8E4DE] rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] focus:bg-white transition-colors placeholder:text-[#9CA3AF]"
                 />
-                <p className="text-xs text-[#8A8F9A] mt-1">No punctuation except underscore (_)</p>
+                <p className="text-xs text-[#4B5563] mt-1">No punctuation except underscore (_)</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-[#2D3340] mb-2">
+                <label htmlFor="register-email" className="block text-sm font-semibold text-[#2D3340] mb-2">
                   Email address
                 </label>
                 <input
+                  id="register-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@stud.noroff.no"
                   required
-                  className="w-full px-4 py-3 border-2 border-[#E8E4DE] rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] focus:bg-white transition-colors placeholder:text-[#C4BFB8]"
+                  className="w-full px-4 py-3 border-2 border-[#E8E4DE] rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] focus:bg-white transition-colors placeholder:text-[#9CA3AF]"
                 />
-                <p className="text-xs text-[#8A8F9A] mt-1">Must be a stud.noroff.no email</p>
+                <p className="text-xs text-[#4B5563] mt-1">Must be a stud.noroff.no email</p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-[#2D3340] mb-2">
+                <label htmlFor="register-password" className="block text-sm font-semibold text-[#2D3340] mb-2">
                   Password
                 </label>
                 <input
+                  id="register-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Min. 8 characters"
                   required
                   minLength={8}
-                  className="w-full px-4 py-3 border-2 border-[#E8E4DE] rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] focus:bg-white transition-colors placeholder:text-[#C4BFB8]"
+                  className="w-full px-4 py-3 border-2 border-[#E8E4DE] rounded-xl text-sm text-[#2D3340] bg-[#FAF6F0] outline-none focus:border-[#E8614A] focus:bg-white transition-colors placeholder:text-[#9CA3AF]"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-[#2D3340] mb-3">
+              <fieldset>
+                <legend className="block text-sm font-semibold text-[#2D3340] mb-3">
                   Account type
-                </label>
+                </legend>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setVenueManager(false)}
+                    aria-pressed={!venueManager}
                     className={`py-3.5 px-4 rounded-xl border-2 text-sm font-medium transition-colors ${
                       !venueManager
-                        ? 'border-[#E8614A] bg-[#E8614A]/5 text-[#E8614A]'
-                        : 'border-[#E8E4DE] text-[#8A8F9A] hover:border-[#2D3340] hover:text-[#2D3340]'
+                        ? 'border-[#C0392B] bg-[#C0392B]/5 text-[#C0392B]'
+                        : 'border-[#E8E4DE] text-[#4B5563] hover:border-[#2D3340] hover:text-[#2D3340]'
                     }`}
                   >
-                    🧳 Customer
+                    <span aria-hidden="true">🧳</span> Customer
                   </button>
                   <button
                     type="button"
                     onClick={() => setVenueManager(true)}
+                    aria-pressed={venueManager}
                     className={`py-3.5 px-4 rounded-xl border-2 text-sm font-medium transition-colors ${
                       venueManager
-                        ? 'border-[#E8614A] bg-[#E8614A]/5 text-[#E8614A]'
-                        : 'border-[#E8E4DE] text-[#8A8F9A] hover:border-[#2D3340] hover:text-[#2D3340]'
+                        ? 'border-[#C0392B] bg-[#C0392B]/5 text-[#C0392B]'
+                        : 'border-[#E8E4DE] text-[#4B5563] hover:border-[#2D3340] hover:text-[#2D3340]'
                     }`}
                   >
-                    🏠 Venue Manager
+                    <span aria-hidden="true">🏠</span> Venue Manager
                   </button>
                 </div>
-              </div>
+              </fieldset>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#E8614A] text-white font-semibold py-4 rounded-xl hover:bg-[#d4553f] transition-colors disabled:opacity-60 disabled:cursor-not-allowed mt-2 text-sm tracking-wide"
+                className="w-full bg-[#C0392B] text-white font-semibold py-4 rounded-xl hover:bg-[#a93226] transition-colors disabled:opacity-60 disabled:cursor-not-allowed mt-2 text-sm tracking-wide"
               >
                 {loading ? 'Creating account…' : 'Create Account'}
               </button>
@@ -161,13 +174,13 @@ export default function Register() {
 
             <div className="flex items-center gap-3 my-6">
               <div className="flex-1 h-px bg-[#E8E4DE]" />
-              <span className="text-xs text-[#8A8F9A]">or</span>
+              <span className="text-xs text-[#4B5563]">or</span>
               <div className="flex-1 h-px bg-[#E8E4DE]" />
             </div>
 
-            <p className="text-center text-sm text-[#8A8F9A]">
+            <p className="text-center text-sm text-[#4B5563]">
               Already have an account?{' '}
-              <Link to="/login" className="text-[#E8614A] font-semibold hover:underline">
+              <Link to="/login" className="text-[#C0392B] font-semibold hover:underline">
                 Sign In
               </Link>
             </p>
