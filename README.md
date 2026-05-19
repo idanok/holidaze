@@ -4,7 +4,7 @@ A modern accommodation booking platform built for Noroff Project Exam 2. Holidaz
 ## Links 🔗
 | Resource | URL |
 |----------|-----|
-| Live Site | _Coming soon_ |
+| Live Site | https://holidaze123.netlify.app/ |
 | GitHub Repository | https://github.com/idanok/holidaze |
 | Kanban Board | https://github.com/users/idanok/projects/15/views/1 |
 | Figma Design | https://www.figma.com/design/qB6qMaVuEhnV99Rx80HrWc/Untitled |
@@ -73,17 +73,30 @@ The output will be in the `dist/` folder.
 
 ## 📁 Project Structure
 src/
-├── api/              # API calls (auth, venues, bookings)
+├── api/          # API calls (auth, venues, bookings, profiles)
 ├── components/
-│   ├── layout/       # AppLayout, Header, Footer
-│   └── ui/           # VenueCard and other reusable components
-├── context/          # AuthContext and useAuth hook
-├── pages/            # One file per route
-│   └── manager/      # Venue manager pages
-├── types/            # TypeScript interfaces
-└── utils/            # localStorage helpers
+│   ├── layout/   # AppLayout with navbar and footer
+│   └── ui/       # VenueCard and reusable components
+├── context/      # AuthContext and useAuth hook
+├── pages/        # One file per route
+├── types/        # TypeScript interfaces
+└── utils/        # localStorage helpers
 
 ---
+
+## 🧪 Testing the Application
+
+To test all features, register two accounts at `/register`:
+
+**As a Customer:**
+- Use any `stud.noroff.no` email
+- Leave the venue manager toggle off
+- You can then browse and book venues
+
+**As a Venue Manager:**
+- Use any `stud.noroff.no` email
+- Turn the venue manager toggle ON before registering
+- You can then create, edit and delete venues
 
 ## 📋 Noroff API
 This project uses the [Noroff API v2](https://docs.noroff.dev/docs/v2). To register an account you must use a `stud.noroff.no` email address.
